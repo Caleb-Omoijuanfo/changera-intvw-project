@@ -1,0 +1,18 @@
+.meta-data {
+  display: flex;
+  margin-right: 1rem;
+}
+
+.meta-data > .icon {
+  font-size: 1.5rem;
+  position: relative;
+  bottom: 5px;
+  left: -6px;
+}
+
+.meta-data > span {
+  margin-left: -10px;
+  color: #848a93;
+  font-size: 0.8rem;
+  font-weight: 600;
+}

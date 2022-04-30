@@ -1,0 +1,32 @@
+.header {
+  display: flex;
+  justify-content: center;
+  border-bottom: 1px solid #ddd;
+  padding-left: 10rem;
+}
+
+.menu {
+  display: flex;
+  padding: 2rem 1rem 0.8rem;
+  cursor: pointer;
+}
+
+.menu > .icon {
+  margin-right: 0.5rem;
+  position: relative;
+  top: 0.2rem;
+}
+
+.menu > .title {
+  color: #666a6e;
+  font-weight: bold;
+}
+
+.active > .title {
+  color: #000;
+}
+
+.active {
+  border: none;
+  border-bottom: 2px solid #f99c88;
+}
