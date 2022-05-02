@@ -8,7 +8,7 @@ import { AiOutlineStar } from "react-icons/ai";
 
 import "./nav.css";
 
-const Nav = ({ active, setActive }) => {
+const Nav = ({ active, setActive, data }) => {
   return (
     <div className="header">
       <div
@@ -24,7 +24,7 @@ const Nav = ({ active, setActive }) => {
       >
         <GoRepo className="icon" />
         <span className="title">Repositories</span>
-        <CountBadge count={367} />
+        <CountBadge count={data?.profile?.public_repos} />
       </div>
       <div
         className={`menu  ${active === 2 ? "active" : null}`}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import Nav from "../../lib/components/nav";
 import { IoMdArrowDropdown } from "react-icons/io";
@@ -8,19 +8,47 @@ import { AiOutlineMail, AiOutlineTwitter } from "react-icons/ai";
 import { GoPrimitiveDot } from "react-icons/go";
 import profileImg from "../../lib/assets/profileImage.png";
 import RepositoryItem from "../../lib/components/repository";
+import { useGetProfileMutation } from "../../services/api";
+import Loader from "../../lib/Loader";
 
 import "./profile.css";
 
 const Profile = () => {
   const [active, setActive] = useState(1);
+  const [profileDetails, setProfileDetails] = useState({});
+  const url = window.location.href;
+
+  const [getProfile, { isLoading }] = useGetProfileMutation();
+
+  const handleAuthenticate = async (code) => {
+    const payload = {
+      code: code,
+    };
+
+    const response = await getProfile(payload);
+    setProfileDetails(response?.data);
+  };
+
+  useEffect(() => {
+    let result = url.split("?code=");
+
+    handleAuthenticate(result[1]);
+  }, []);
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <div>
-      <Nav active={active} setActive={setActive} />
+      <Nav active={active} setActive={setActive} data={profileDetails} />
       <div className="profile">
         <div className="column-1">
           <div className="profile-img">
-            <img src={profileImg} />
+            <img
+              src={profileDetails?.profile?.avatar_url ?? profileImg}
+              alt="user profile image"
+            />
             <div className="smaller-img"></div>
           </div>
           <div className="profile-name">
@@ -36,12 +64,16 @@ const Profile = () => {
           <div className="people-information">
             <BsPeople className="icon" />
             <div className="follow-info">
-              <span className="count">105</span>
+              <span className="count">
+                {profileDetails?.profile?.followers ?? 157}
+              </span>
               <span className="title">followers</span>
             </div>
             <GoPrimitiveDot className="dot" />
             <div className="follow-info">
-              <span className="count">192</span>
+              <span className="count">
+                {profileDetails?.profile?.following ?? 100}
+              </span>
               <span className="title">following</span>
             </div>
           </div>
@@ -78,10 +110,11 @@ const Profile = () => {
             </button>
           </div>
 
-          <RepositoryItem />
-          <RepositoryItem />
-          <RepositoryItem />
-          <RepositoryItem />
+          {profileDetails &&
+            profileDetails?.repositoryData &&
+            profileDetails?.repositoryData.map((repo, index) => (
+              <RepositoryItem key={index} repo={repo} />
+            ))}
         </div>
       </div>
     </div>

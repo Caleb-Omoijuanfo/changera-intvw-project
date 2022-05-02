@@ -3,22 +3,19 @@ import React from "react";
 import { ReactComponent as Chart } from "../../assets/chart.svg";
 import Meta from "../meta";
 import { GoPrimitiveDot } from "react-icons/go";
-import { AiOutlineStar } from "react-icons/ai";
+import moment from "moment";
 
 import "./repository.css";
 
-const RepositoryItem = () => {
+const RepositoryItem = ({ repo }) => {
   return (
     <div className="repository">
       <div className="title-and-star-container">
-        <span className="repo-title">api-design-with-djangorest</span>
+        <span className="repo-title">{repo?.name}</span>
         <button>Star</button>
       </div>
       <div className="repo-description">
-        <span>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate
-          eius repellendus nobis totam consectetur quas
-        </span>
+        <span>{repo?.description}</span>
       </div>
       <div className="repo-chart">
         <Chart />
@@ -26,12 +23,11 @@ const RepositoryItem = () => {
       <div className="repo-meta">
         <Meta
           icon={<GoPrimitiveDot className="icon" style={{ color: "red" }} />}
-          title="Python"
+          title={repo?.language}
         />
-        <Meta
-          icon={<AiOutlineStar className="icon" style={{ fontSize: "1rem" }} />}
-          title="Python"
-        />
+        <div style={{ marginLeft: "0.5rem" }}>
+          <Meta title={` Updated at ${moment(repo?.updated_at).fromNow()}`} />
+        </div>
       </div>
     </div>
   );
